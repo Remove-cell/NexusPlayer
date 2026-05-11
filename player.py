@@ -1180,10 +1180,10 @@ class NexusPlayer(QMainWindow):
                 duration = self.get_duration_str(path)
                 info_str = f"[{duration}] " if duration else ""
                 
-                # 🌟 [เพิ่มตรงนี้] ใช้เครื่องมือหั่นชื่อไฟล์ ให้เหลือความยาวสูงสุด 30 ตัวอักษร
+                # 🌟 หั่นชื่อไฟล์ ให้เหลือความยาวสูงสุด 30 ตัวอักษร
                 short_name = self.truncate_filename(filename, 30)
                 
-                # 🌟 ใช้ชื่อที่หั่นแล้ว (short_name) มารวมร่างแทน
+                # 🌟 รวมร่าง
                 display_text = f"{info_str}{short_name} ({f_size_mb:.1f} MB)"
                 
             except: 
@@ -1193,17 +1193,8 @@ class NexusPlayer(QMainWindow):
                 
             file_type = os.path.splitext(path)[1].lower()
 
-        # 🌟 โค้ดส่วนที่เหลือเหมือนเดิมเป๊ะ
+        # 🌟 สร้าง Item เข้า Playlist แค่ตัวเดียวเท่านั้น! (ไม่มีร่างแยกแล้ว)
         item = QListWidgetItem(display_text)
-        item.setData(Qt.UserRole, path); item.setData(Qt.UserRole + 1, filename.lower())
-        item.setData(Qt.UserRole + 2, file_date); item.setData(Qt.UserRole + 3, file_size)
-        item.setData(Qt.UserRole + 4, file_type); item.setData(Qt.UserRole + 5, self.playlist_widget.count()) 
-        self.playlist_widget.addItem(item)
-        
-        if play_now or not self.current_playing_path:
-            self.playlist_widget.setCurrentItem(item); self.load_media(path)
-
-        item = QListWidgetItem(filename)
         item.setData(Qt.UserRole, path); item.setData(Qt.UserRole + 1, filename.lower())
         item.setData(Qt.UserRole + 2, file_date); item.setData(Qt.UserRole + 3, file_size)
         item.setData(Qt.UserRole + 4, file_type); item.setData(Qt.UserRole + 5, self.playlist_widget.count()) 
